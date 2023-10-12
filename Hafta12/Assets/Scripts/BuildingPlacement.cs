@@ -29,7 +29,7 @@ public class BuildingPlacement : MonoBehaviour
 
     }
 
-    void canselBuildingPlacement()
+    void cancelBuildingPlacement()
     {
         currentlyPlacing = false;
         placementIndicator.SetActive(false);
@@ -45,7 +45,7 @@ public class BuildingPlacement : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            canselBuildingPlacement();
+            cancelBuildingPlacement();
         }
 
         if(Time.time - lastUpdateTime > indicatorUpdateTime)
@@ -63,5 +63,35 @@ public class BuildingPlacement : MonoBehaviour
                 BulldozerIndicator.transform.position = curIndicatorPos;
             }
         }
+
+        if(Input.GetMouseButtonDown(1) && currentlyPlacing)
+        {
+            PlaceBuilding();
+        }
+        else if(Input.GetMouseButtonDown(0) && currentlyBulldozering)
+        {
+            Bulldoze();
+        }
     }
+
+    void PlaceBuilding()
+    {
+        GameObject buildObj = Instantiate(curBuildingPreset.prefab, curIndicatorPos, Quaternion.identity);
+        City.instance.onPlaceBuilding(buildObj.GetComponent<Building>());
+        cancelBuildingPlacement();
+    }
+
+    void Bulldoze()
+    {
+        Building buildingToDestroy = City.instance.buildings.Find(x => x.transform.position == curIndicatorPos);
+
+        if(buildingToDestroy != null)
+        {
+            City.instance.onRemoveBuilding(buildingToDestroy);
+        }
+    }
+
+  
+
+
 }

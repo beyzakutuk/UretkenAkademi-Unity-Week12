@@ -33,7 +33,7 @@ public class Selector : MonoBehaviour
 
         if(plane.Raycast(ray, out rayOut))
         {
-            Vector3 newPos = ray.GetPoint(rayOut) -new Vector3(0.05f , 0.0f , 0.5f);
+            Vector3 newPos = ray.GetPoint(rayOut) -new Vector3(0.08f , 0.0f , 0.8f);
             newPos = new Vector3(Mathf.CeilToInt(newPos.x) , 0.0f , Mathf.CeilToInt(newPos.z));
 
             return newPos;
